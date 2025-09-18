@@ -1032,6 +1032,8 @@ describe('Post\'s', () => {
 		});
 
 		it('should accept queued posts and submit', async () => {
+			// Gives global mod permission to reply to a topic in a specific category
+			await privileges.categories.give(['topics:reply'], cid, globalModUid);
 			const ids = await db.getSortedSetRange('post:queue', 0, -1);
 			await apiPosts.acceptQueuedPost({ uid: globalModUid }, { id: ids[0] });
 			await apiPosts.acceptQueuedPost({ uid: globalModUid }, { id: ids[1] });
