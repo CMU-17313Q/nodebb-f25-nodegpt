@@ -21,7 +21,7 @@ const Votes = {
 			throw e;
 		}
 
-		// ✅ Uniqueness: check first, then add
+		// Uniqueness: check first, then add
 		const already = await db.isSetMember(`poll:voters:${pollId}`, String(userId));
 		if (already) {
 			const err = new Error('User has already voted on this poll');
