@@ -1,6 +1,11 @@
 
 'use strict';
 
+const templates = require('../templates');
+const { validateContext } = require('../utils/templateContext');
+const { tagsFromContext } = require('../utils/templateTagging');
+
+
 const _ = require('lodash');
 const winston = require('winston');
 
@@ -16,6 +21,8 @@ const posts = require('../posts');
 const privileges = require('../privileges');
 const categories = require('../categories');
 const translator = require('../translator');
+
+
 
 module.exports = function (Topics) {
 	Topics.create = async function (data) {
@@ -98,6 +105,38 @@ module.exports = function (Topics) {
 			Topics.checkTitle(data.title);
 		}
 
+		// --- AUTO-TAGGING: derive tags from template context on create ---
+		if (data.templateId && data.context) {
+			try {
+				const tmpl = await templates.get(String(data.templateId));
+				if (tmpl && Array.isArray(tmpl.fields) && tmpl.fields.length) {
+					// Validate + normalize the submitted context against required fields
+					const normalized = validateContext(tmpl.fields, data.context);
+					data.context = normalized;
+
+					// Turn selected context fields into tags (e.g., assignment_name, course)
+					const autoTags = tagsFromContext(normalized);
+					if (Array.isArray(autoTags) && autoTags.length) {
+						const seen = new Set((data.tags || []).map(t => String(t).toLowerCase()));
+						for (const tag of autoTags) {
+							if (!tag) continue;
+							const lower = String(tag).toLowerCase();
+							if (!seen.has(lower)) {
+								data.tags.push(tag);
+								seen.add(lower);
+							}
+						}
+					}
+				}
+			} catch (err) {
+				// Don't block topic creation if tagging fails
+				winston.warn(`[auto-tag] failed to apply tags from template ${data.templateId}: ${err.message}`);
+			}
+		}
+		// --- end AUTO-TAGGING block ---
+
+
+		
 		await Topics.validateTags(data.tags, data.cid, uid);
 		data.tags = await Topics.filterTags(data.tags, data.cid);
 		if (!data.fromQueue && !isAdmin) {
