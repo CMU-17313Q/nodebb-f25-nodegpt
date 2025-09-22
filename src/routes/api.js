@@ -1,5 +1,8 @@
 'use strict';
 
+const staffTemplates = require('../controllers/admin/templates'); // admin-only
+const publicTemplates = require('../controllers/templates');// public read
+
 const express = require('express');
 
 const uploadsController = require('../controllers/uploads');
@@ -9,6 +12,47 @@ module.exports = function (app, middleware, controllers) {
 	const middlewares = [middleware.autoLocale, middleware.authenticateRequest];
 	const router = express.Router();
 	app.use('/api', router);
+
+	// ===== Admin-only Template CRUD =====
+	const staffMiddlewares = [
+		...middlewares,
+		middleware.ensureLoggedIn, // must be logged in
+	];
+
+	// LIST (also for composer)
+	router.get('/staff/templates',
+		staffMiddlewares,
+		helpers.tryRoute(staffTemplates.list));
+
+	router.get('/staff/templates/composer',
+		staffMiddlewares,
+		helpers.tryRoute(staffTemplates.listForComposer));
+
+	// GET one
+	router.get('/staff/templates/:id',
+		staffMiddlewares,
+		helpers.tryRoute(staffTemplates.get));
+
+	// CREATE
+	router.post('/staff/templates',
+		[...staffMiddlewares, middleware.applyCSRF],
+		helpers.tryRoute(staffTemplates.create));
+
+	// UPDATE
+	router.put('/staff/templates/:id',
+		[...staffMiddlewares, middleware.applyCSRF],
+		helpers.tryRoute(staffTemplates.update));
+
+	// DELETE
+	router.delete('/staff/templates/:id',
+		[...staffMiddlewares, middleware.applyCSRF],
+		helpers.tryRoute(staffTemplates.remove));
+
+	// ===== Public read-only (regular users) =====
+	// Fetch a specific template by id (no catalog listing for non-admins)
+	router.get('/templates/:id',
+		[...middlewares],
+		helpers.tryRoute(publicTemplates.get));
 
 	router.get('/config', [...middlewares, middleware.applyCSRF], helpers.tryRoute(controllers.api.getConfig));
 
