@@ -3,12 +3,18 @@ name: Lint and test
 on:
   push:
     branches:
+<<<<<<< HEAD
       - main
+=======
+>>>>>>> myproj/main
       - master
       - develop
   pull_request:
     branches:
+<<<<<<< HEAD
       - main
+=======
+>>>>>>> myproj/main
       - master
       - develop
 
@@ -21,11 +27,57 @@ permissions:
 
 jobs:
   test:
+<<<<<<< HEAD
     runs-on: ubuntu-latest
     env:
       TEST_ENV: 'production'
 
     services:
+=======
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+      contents: read  # for actions/checkout to fetch code
+    name: Lint and test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node: [20, 22]
+        database: [mongo-dev, mongo, redis, postgres]
+        include:
+          # only run coverage once
+          - os: ubuntu-latest
+            node: 22
+            coverage: true
+          # test under development once
+          - database: mongo-dev
+            test_env: development
+          # only run eslint once
+          - os: ubuntu-latest
+            node: 22
+            database: mongo-dev
+            lint: true
+    runs-on: ${{ matrix.os }}
+    env:
+      TEST_ENV: ${{ matrix.test_env || 'production' }}
+
+    services:
+      postgres:
+        image: 'postgres:17-alpine'
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps port 5432 on service container to the host
+          - 5432:5432
+
+>>>>>>> myproj/main
       redis:
         image: 'redis:8.0.1'
         # Set health checks to wait until redis has started
@@ -38,6 +90,15 @@ jobs:
           # Maps port 6379 on service container to the host
           - 6379:6379
 
+<<<<<<< HEAD
+=======
+      mongo:
+        image: 'mongo:8.0'
+        ports:
+          # Maps port 27017 on service container to the host
+          - 27017:27017
+
+>>>>>>> myproj/main
     steps:
       - uses: actions/checkout@v4
 
@@ -46,14 +107,82 @@ jobs:
       - name: Install Node
         uses: actions/setup-node@v4
         with:
+<<<<<<< HEAD
           node-version: 22
+=======
+          node-version: ${{ matrix.node }}
+>>>>>>> myproj/main
 
       - name: NPM Install
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
 
+<<<<<<< HEAD
       - name: Setup on Redis
+=======
+      - name: Setup on MongoDB
+        if: startsWith(matrix.database, 'mongo')
+        env:
+          SETUP: >-
+            {
+              "url": "http://127.0.0.1:4567",
+              "secret": "abcdef",
+              "admin:username": "admin",
+              "admin:email": "test@example.org",
+              "admin:password": "hAN3Eg8W",
+              "admin:password:confirm": "hAN3Eg8W",
+
+              "database": "mongo",
+              "mongo:host": "127.0.0.1",
+              "mongo:port": 27017,
+              "mongo:username": "",
+              "mongo:password": "",
+              "mongo:database": "nodebb"
+            }
+          CI: >-
+            {
+              "host": "127.0.0.1",
+              "port": 27017,
+              "database": "ci_test"
+            }
+        run: |
+          node app --setup="${SETUP}" --ci="${CI}"
+
+      - name: Setup on PostgreSQL
+        if: startsWith(matrix.database, 'postgres')
+        env:
+          SETUP: >-
+            {
+              "url": "http://127.0.0.1:4567",
+              "secret": "abcdef",
+              "admin:username": "admin",
+              "admin:email": "test@example.org",
+              "admin:password": "hAN3Eg8W",
+              "admin:password:confirm": "hAN3Eg8W",
+
+              "database": "postgres",
+              "postgres:host": "127.0.0.1",
+              "postgres:port": 5432,
+              "postgres:username": "postgres",
+              "postgres:password": "postgres",
+              "postgres:database": "nodebb"
+            }
+          CI: >-
+            {
+              "host": "127.0.0.1",
+              "database": "ci_test",
+              "port": 5432,
+              "username": "postgres",
+              "password": "postgres"
+            }
+        run: |
+          node -e "const { Client } = require('pg'); const c = new Client({ host: '127.0.0.1', port: 5432, user: 'postgres', password: 'postgres' }); c.connect().then(() => c.query('CREATE DATABASE nodebb')).then(() => c.query('CREATE DATABASE ci_test')).then(() => c.end())"
+          node app --setup="${SETUP}" --ci="${CI}"
+
+      - name: Setup on Redis
+        if: startsWith(matrix.database, 'redis')
+>>>>>>> myproj/main
         env:
           SETUP: >-
             {
@@ -80,6 +209,10 @@ jobs:
           node app --setup="${SETUP}" --ci="${CI}"
 
       - name: Run ESLint
+<<<<<<< HEAD
+=======
+        if: matrix.lint
+>>>>>>> myproj/main
         run: npm run lint
 
       - name: Node tests
@@ -89,4 +222,25 @@ jobs:
         run: npm run coverage
 
       - name: Test coverage
+<<<<<<< HEAD
         uses: coverallsapp/github-action@v2
+=======
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
+        if: matrix.coverage
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: ${{ matrix.os }}-node-${{ matrix.node }}-db-${{ matrix.database }}
+          parallel: true
+
+  finish:
+    permissions:
+      checks: write  # for coverallsapp/github-action to create new checks
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b # v2.3.6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+>>>>>>> myproj/main
