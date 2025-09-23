@@ -10,6 +10,9 @@ const groups = require('../groups');
 const privileges = require('../privileges');
 const activitypub = require('../activitypub');
 const utils = require('../utils');
+const templates = require('../templates');
+const winston = require('winston'); // if not already required in this file
+
 
 module.exports = function (Posts) {
 	Posts.create = async function (data) {
@@ -67,6 +70,26 @@ module.exports = function (Posts) {
 
 		({ post: postData } = await plugins.hooks.fire('filter:post.create', { post: postData, data: data }));
 		await db.setObject(`post:${postData.pid}`, postData);
+
+		// --- PERSIST TEMPLATE CONTEXT ON MAIN POST ---
+		try {
+			if (isMain && data.templateId && data.context) {
+				const tmpl = await templates.get(String(data.templateId));
+				if (tmpl && Array.isArray(tmpl.fields) && tmpl.fields.length) {
+					// validate & normalize on server
+					const normalized = templates.validateContext(tmpl.fields, data.context);
+
+					// save context + template id on the post hash
+					await db.setObjectField(`post:${postData.pid}`, 'templateId', String(data.templateId));
+					await db.setObjectField(`post:${postData.pid}`, 'context', JSON.stringify(normalized));
+				}
+			}
+		} catch (err) {
+			// don't block post creation if this fails
+			winston.warn(`[context] failed to persist context for post ${postData.pid}: ${err.message}`);
+		}
+		// --- end PERSIST TEMPLATE CONTEXT ---
+
 
 		const topicData = await topics.getTopicFields(tid, ['cid', 'pinned']);
 		postData.cid = topicData.cid;

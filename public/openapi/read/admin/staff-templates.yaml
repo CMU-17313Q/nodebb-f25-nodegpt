@@ -1,0 +1,30 @@
+get:
+  tags: [admin]
+  summary: List templates (admin only)
+  description: Returns all templates. Requires admin privileges.
+  responses:
+    "200":
+      description: ""
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              templates:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: { type: string }
+                    title: { type: string }
+                    createdAt: { type: number }
+                    updatedAt: { type: number }
+                    fields:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          key: { type: string }
+                          label: { type: string }
+                          type: { type: string }
+                          required: { type: boolean }

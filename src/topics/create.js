@@ -2,8 +2,6 @@
 'use strict';
 
 const templates = require('../templates');
-const { validateContext } = require('../utils/templateContext');
-const { tagsFromContext } = require('../utils/templateTagging');
 
 
 const _ = require('lodash');
@@ -105,17 +103,17 @@ module.exports = function (Topics) {
 			Topics.checkTitle(data.title);
 		}
 
-		// --- AUTO-TAGGING: derive tags from template context on create ---
+		// --- AUTO-TAGGING from template context ---
+		
 		if (data.templateId && data.context) {
 			try {
 				const tmpl = await templates.get(String(data.templateId));
 				if (tmpl && Array.isArray(tmpl.fields) && tmpl.fields.length) {
-					// Validate + normalize the submitted context against required fields
-					const normalized = validateContext(tmpl.fields, data.context);
+					// use helpers exported from src/templates.js
+					const normalized = templates.validateContext(tmpl.fields, data.context);
 					data.context = normalized;
 
-					// Turn selected context fields into tags (e.g., assignment_name, course)
-					const autoTags = tagsFromContext(normalized);
+					const autoTags = templates.tagsFromContext(normalized);
 					if (Array.isArray(autoTags) && autoTags.length) {
 						const seen = new Set((data.tags || []).map(t => String(t).toLowerCase()));
 						for (const tag of autoTags) {
@@ -129,11 +127,11 @@ module.exports = function (Topics) {
 					}
 				}
 			} catch (err) {
-				// Don't block topic creation if tagging fails
 				winston.warn(`[auto-tag] failed to apply tags from template ${data.templateId}: ${err.message}`);
 			}
 		}
-		// --- end AUTO-TAGGING block ---
+		// --- end AUTO-TAGGING ---
+
 
 
 		

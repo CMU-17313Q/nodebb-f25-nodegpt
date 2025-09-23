@@ -167,3 +167,75 @@ Template.remove = async function (id) {
 		db.sortedSetRemove(TEMPLATE_LIST, [id]),
 	]);
 };
+
+/**
+ * Validate submitted context against required template fields.
+ * Returns a normalized context object; throws if required fields are missing.
+ */
+Template.validateContext = function validateContext(fields, context) {
+	if (!Array.isArray(fields) || fields.length === 0) {
+		throw new Error('[[error:invalid-fields-array]]');
+	}
+	if (!context || typeof context !== 'object') {
+		throw new Error('[[error:invalid-context]]');
+	}
+
+	const normalized = {};
+	const fieldMap = new Map(fields.map(f => [f.key, f]));
+
+	for (const [key, def] of fieldMap.entries()) {
+		const raw = context[key];
+
+		if (def.required) {
+			if (raw === null || raw === undefined) {
+				throw new Error(`[[error:required-field-missing, ${def.label || key}]]`);
+			}
+			if (typeof raw === 'string' && !raw.trim()) {
+				throw new Error(`[[error:required-field-missing, ${def.label || key}]]`);
+			}
+		}
+
+		if (raw !== undefined) {
+			let val = raw;
+			if (typeof raw === 'string') {
+				val = raw.trim();
+			} else if (Array.isArray(raw)) {
+				val = raw.map(v => (typeof v === 'string' ? v.trim() : String(v))).join(', ');
+			} else if (typeof raw === 'number' || typeof raw === 'boolean') {
+				// keep as-is
+			} else {
+				val = String(raw);
+			}
+			normalized[key] = val;
+		}
+	}
+
+	return normalized;
+};
+
+/**
+ * Build tags from normalized context.
+ * Customize mappings as needed.
+ */
+Template.tagsFromContext = function tagsFromContext(context, mappings) {
+	if (!context || typeof context !== 'object') return [];
+
+	const defaultMap = [
+		{ fieldKey: 'assignment_name', toTag: v => String(v) },
+		{ fieldKey: 'course', toTag: v => String(v) },
+	];
+
+	const rules = Array.isArray(mappings) && mappings.length ? mappings : defaultMap;
+
+	const tags = [];
+	for (const rule of rules) {
+		const raw = context[rule.fieldKey];
+		if (raw === undefined || raw === null) continue;
+		const t = rule.toTag ? rule.toTag(raw) : String(raw);
+		const trimmed = (t || '').toString().trim();
+		if (trimmed) tags.push(trimmed);
+	}
+
+	// de-dupe while preserving order
+	return Array.from(new Set(tags));
+};

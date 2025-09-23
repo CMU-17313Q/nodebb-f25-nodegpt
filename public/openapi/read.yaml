@@ -66,6 +66,16 @@ tags:
   - name: other
     description: Other one-off routes that do not fit in a section of their own
 paths:
+
+  /api/staff/templates:
+    $ref: 'read/admin/staff-templates.yaml'
+  /api/staff/templates/composer:
+    $ref: 'read/admin/staff-templates-composer.yaml'
+  "/api/staff/templates/{id}":
+    $ref: 'read/admin/staff-templates-id.yaml'
+  "/api/templates/{id}":
+    $ref: 'read/templates-id.yaml'
+
   /sping:
     $ref: 'read/sping.yaml'
   /ping:
