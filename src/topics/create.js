@@ -1,7 +1,6 @@
 
 'use strict';
 
-const templates = require('../templates');
 
 
 const _ = require('lodash');
@@ -107,6 +106,7 @@ module.exports = function (Topics) {
 		
 		if (data.templateId && data.context) {
 			try {
+				const templates = require('../templates');
 				const tmpl = await templates.get(String(data.templateId));
 				if (tmpl && Array.isArray(tmpl.fields) && tmpl.fields.length) {
 					// use helpers exported from src/templates.js

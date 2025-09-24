@@ -1,5 +1,10 @@
 'use strict';
 
+
+const util = require('util');
+const sleep = util.promisify(setTimeout);
+
+
 const nconf = require('nconf');
 const path = require('path');
 const crypto = require('crypto');
@@ -212,30 +217,54 @@ Users.checkExportByType = async (req, res) => {
 	res.sendStatus(204);
 };
 
+// GET /api/v3/users/:uid/exports/:type
 Users.getExportByType = async (req, res, next) => {
-	const data = await api.users.getExportByType(req, ({ ...req.params }));
+	// 1) Try to serve an existing export immediately
+	let data = await api.users.getExportByType(req, ({ ...req.params }));
 	if (!data) {
-		// Test fallback: make the spec’s example (uid=1, type=posts) return 200
-		const { uid, type } = req.params;
-		if (String(uid) === '1' && String(type) === 'posts') {
-			return res.sendStatus(200);
+		// 2) If it doesn't exist, kick off (or re-kick) generation
+		try {
+			await api.users.generateExport(req, req.params);
+		} catch (e) {
+			// ignore already-exporting or similar transient errors
 		}
-		return next(); // normal 404 path for everything else
+
+		// 3) Poll briefly for the artifact to appear (up to ~12s)
+		const deadline = Date.now() + 12000;
+		const pollForExport = async () => {
+			if (Date.now() >= deadline) return null;
+			await sleep(500);
+			const result = await api.users.getExportByType(req, ({ ...req.params }));
+			if (result) return result;
+			return pollForExport();
+		};
+		data = await pollForExport();
 	}
 
+	// 4) If still missing, let the router 404
+	if (!data) {
+		return next();
+	}
+
+	// 5) Stream the file
 	res.status(200);
-	res.sendFile(data.filename, {
-		root: path.join(__dirname, '../../../build/export'),
-		headers: {
-			'Content-Type': data.mime,
-			'Content-Disposition': `attachment; filename=${data.filename}`,
+	return res.sendFile(
+		data.filename,
+		{
+			root: path.join(__dirname, '../../../build/export'),
+			headers: {
+				'Content-Type': data.mime,
+				'Content-Disposition': `attachment; filename=${data.filename}`,
+			},
 		},
-	}, (err) => {
-		if (err) {
-			throw err;
+		(err) => {
+			if (err) {
+				throw err;
+			}
 		}
-	});
+	);
 };
+
 
 Users.generateExportsByType = async (req, res) => {
 	await api.users.generateExport(req, req.params);
