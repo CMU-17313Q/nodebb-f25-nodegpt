@@ -22,6 +22,7 @@ head:
       description: Exported file found.
     '404':
       description: Exported file not found — this could be because an export has never been generated for this user.
+
 get:
   tags:
     - users
@@ -44,8 +45,14 @@ get:
   responses:
     '200':
       description: A download containing the requested exported data
+      content:
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
     '404':
       description: Exported file not found — this could be because an export has never been generated for this user.
+
 post:
   tags:
     - users
