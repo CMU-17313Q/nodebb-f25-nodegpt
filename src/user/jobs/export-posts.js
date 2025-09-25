@@ -19,7 +19,7 @@ const prestart = require('../../prestart');
 prestart.loadConfig(configFile);
 prestart.setupWinston();
 
-const db = require('../../database');
+const db = require('../src/database');
 const batch = require('../../batch');
 
 process.on('message', async (msg) => {

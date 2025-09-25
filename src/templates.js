@@ -1,7 +1,15 @@
 // src/templates.js
 'use strict';
 
-const db = require.main.require('./src/database');
+const path = require('path');
+let db;
+try {
+	// Works when app runs normally (main = app.js)
+	db = require.main.require('./src/database');
+} catch {
+	// Works when running inside export workers (main = src/user/jobs/export-*.js)
+	db = require(path.join(__dirname, 'database'));
+}
 const { v4: uuidv4 } = require('uuid');
 
 const TEMPLATE_PREFIX = 'template:';
