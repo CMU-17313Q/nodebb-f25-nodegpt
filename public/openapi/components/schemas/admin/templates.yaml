@@ -1,0 +1,30 @@
+TemplateField:
+  type: object
+  properties:
+    key:     { type: string, example: assignment }
+    label:   { type: string, example: Assignment }
+    type:
+      type: string
+      enum: [text, textarea, number, date, datetime, select, url]
+      example: text
+    required: { type: boolean, example: true }
+
+Template:
+  type: object
+  properties:
+    id:        { type: string, example: "a1b2c3d4" }
+    title:     { type: string, example: "Assignment Template" }
+    fields:
+      type: array
+      items: { $ref: '#/TemplateField' }
+    createdAt: { type: integer, example: 1695400000000 }
+    updatedAt: { type: integer, example: 1695400005000 }
+
+TemplateSummary:
+  type: object
+  properties:
+    id:     { type: string, example: "a1b2c3d4" }
+    title:  { type: string, example: "Assignment Template" }
+    fields:
+      type: array
+      items: { $ref: '#/TemplateField' }
