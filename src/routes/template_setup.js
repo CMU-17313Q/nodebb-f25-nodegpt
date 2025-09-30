@@ -5,6 +5,21 @@ const router = require('express').Router();
 const Template = require('../templates'); 
 const assignmentFields = require('../template_fields/assignment_fields');
 
+// routes for managing templates
+const staffOnly = require('../middleware/staffOnly');
+const Templates = require('../controllers/templates');
+
+// READ (public)
+router.get('/', Templates.list);
+router.get('/:id', Templates.read);
+
+// CREATE / UPDATE / DELETE (staff only)
+router.post('/', staffOnly, Templates.create);
+router.put('/:id', staffOnly, Templates.update);
+router.delete('/:id', staffOnly, Templates.remove);
+
+module.exports = router;
+
 /**
  * GET /test-template
  * Route to create a new assignment template and return it as JSON.
@@ -34,3 +49,4 @@ router.get('/test-template', async (req, res) => {
 });
 
 module.exports = router;
+
