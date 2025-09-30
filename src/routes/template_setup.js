@@ -7,7 +7,7 @@ const assignmentFields = require('../template_fields/assignment_fields');
 
 // routes for managing templates
 const staffOnly = require('../middleware/staffOnly');
-const Templates = require('../controllers/templates');
+const Templates = require('../controllers/postTemplates');
 
 // READ (public)
 router.get('/', Templates.list);
