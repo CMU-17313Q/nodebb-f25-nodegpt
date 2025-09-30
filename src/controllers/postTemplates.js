@@ -1,6 +1,6 @@
 'use strict';
 
-const Templates = require('../src/templates');
+const Templates = require('../templates');
 
 function assertStaff(user) {
 	if (!(user?.isAdmin ||
