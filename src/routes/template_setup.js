@@ -9,11 +9,9 @@ const assignmentFields = require('../template_fields/assignment_fields');
 const staffOnly = require('../middleware/staffOnly');
 const Templates = require('../controllers/postTemplates');
 
-// READ (public)
+// routes for staff to manage templates
 router.get('/', staffOnly, Templates.list);
 router.get('/:id', staffOnly, Templates.read);
-
-// CREATE / UPDATE / DELETE (staff only)
 router.post('/', staffOnly, Templates.create);
 router.put('/:id', staffOnly, Templates.update);
 router.delete('/:id', staffOnly, Templates.remove);
