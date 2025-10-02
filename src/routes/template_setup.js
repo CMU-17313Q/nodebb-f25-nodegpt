@@ -10,8 +10,8 @@ const staffOnly = require('../middleware/staffOnly');
 const Templates = require('../controllers/postTemplates');
 
 // READ (public)
-router.get('/', Templates.list);
-router.get('/:id', Templates.read);
+router.get('/', staffOnly, Templates.list);
+router.get('/:id', staffOnly, Templates.read);
 
 // CREATE / UPDATE / DELETE (staff only)
 router.post('/', staffOnly, Templates.create);
