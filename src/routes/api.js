@@ -35,6 +35,7 @@ module.exports = function (app, middleware, controllers) {
 				const obj = await Votes.getCounts(poll.pollId);
 				counts = options.map(o => Number(obj?.[o.index] || 0));
 				totalVotes = counts.reduce((a, b) => a + b, 0);
+			}
 			return res.json({
 				postId: pid,
 				poll: {
