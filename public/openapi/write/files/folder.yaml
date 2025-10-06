@@ -30,7 +30,14 @@ put:
             type: object
             properties:
               status:
-                $ref: '../../../components/schemas/Status.yaml#/Status'
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ok
+                  message:
+                    type: string
+                    example: OK
     '403':
       description: Forbidden
       content:
