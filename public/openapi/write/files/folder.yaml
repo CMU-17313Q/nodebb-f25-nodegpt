@@ -22,6 +22,15 @@ put:
             - path
             - folderName
   responses:
+    '200':
+      description: Folder created successfully
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: '../../../components/schemas/Status.yaml#/Status'
     '403':
       description: Forbidden
       content:
