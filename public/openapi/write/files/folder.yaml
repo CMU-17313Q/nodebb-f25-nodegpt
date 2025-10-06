@@ -38,6 +38,9 @@ put:
                   message:
                     type: string
                     example: OK
+              response:
+                type: object
+                description: Additional response data
     '403':
       description: Forbidden
       content:
