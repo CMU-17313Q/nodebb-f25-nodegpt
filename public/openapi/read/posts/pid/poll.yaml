@@ -1,0 +1,84 @@
+get:
+  tags:
+    - posts
+  summary: Get poll for a specific post
+  parameters:
+    - in: path
+      name: pid
+      schema:
+        type: integer
+      required: true
+      description: Post ID
+      example: 1
+  responses:
+    "200":
+      description: Poll data for the post
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              postId:
+                type: integer
+                description: The post ID
+              poll:
+                oneOf:
+                  - type: object
+                    additionalProperties: false
+                    description: Empty poll object when no poll exists
+                  - type: object
+                    description: Poll data when poll exists
+                    properties:
+                      id:
+                        type: string
+                        description: Poll ID
+                      question:
+                        type: string
+                        description: Poll question
+                      options:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            index:
+                              type: integer
+                            text:
+                              type: string
+                      hasVoted:
+                        type: boolean
+                        description: Whether the current user has voted
+                      selectedOptionIndex:
+                        type: integer
+                        nullable: true
+                        description: Index of the option the user selected
+                      counts:
+                        type: array
+                        nullable: true
+                        items:
+                          type: integer
+                        description: Vote counts for each option (shown after voting)
+                      totalVotes:
+                        type: integer
+                        nullable: true
+                        description: Total number of votes (shown after voting)
+    "400":
+      description: Bad request (invalid post ID)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: "bad pid"
+    "404":
+      description: Poll not found for this post
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              postId:
+                type: integer
+              poll:
+                type: object

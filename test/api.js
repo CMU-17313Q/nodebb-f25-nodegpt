@@ -243,6 +243,8 @@ describe('API', async () => {
 		meta.config.termsOfUse = 'I, for one, welcome our new test-driven overlords';
 		meta.config.chatMessageDelay = 0;
 		meta.config.activitypubEnabled = 1;
+		meta.config.initialPostDelay = 0;
+		meta.config.newbiePostDelay = 0;
 
 		// Create a category
 		const testCategory = await categories.create({ name: 'test' });
