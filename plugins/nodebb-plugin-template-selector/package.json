@@ -1,0 +1,12 @@
+{
+  "name": "nodebb-plugin-template-selector",
+  "version": "1.0.0",
+  "description": "Custom template selection plugin for admins",
+  "main": "library.js",
+  "keywords": [
+    "nodebb",
+    "plugin"
+  ],
+  "author": "IndyaG",
+  "license": "NIT"
+}
