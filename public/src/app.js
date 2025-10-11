@@ -108,13 +108,15 @@ if (document.readyState === 'loading') {
 			'messages',
 			'search',
 			'forum/header',
+			'forum/polls',
 			'hooks',
-		], function (taskbar, helpers, pagination, messages, search, header, hooks) {
+		], function (taskbar, helpers, pagination, messages, search, header, polls, hooks) {
 			header.prepareDOM();
 			taskbar.init();
 			helpers.register();
 			pagination.init();
 			search.init();
+			polls.init();
 			overrides.overrideTimeago();
 			hooks.fire('action:app.load');
 			messages.show();
