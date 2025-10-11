@@ -30,7 +30,7 @@ function setupDom(
 	});
 	const { window } = dom;
 
-	// --- Load jQuery UMD directly into the window (reliable under jsdom) ---
+	// Load jQuery UMD directly into the window (reliable under jsdom)
 	const jqueryPath = require.resolve('jquery/dist/jquery.js');
 	const jquerySrc = fs.readFileSync(jqueryPath, 'utf8');
 	const jqScript = window.document.createElement('script');
