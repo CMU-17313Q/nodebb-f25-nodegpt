@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require.main.require('./src/database');
+const db = require('../database');
 
 const Votes = {
 	/**
