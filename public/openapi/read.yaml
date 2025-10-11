@@ -256,6 +256,8 @@ paths:
     $ref: 'read/email/unsubscribe/token.yaml'
   "/api/post/{pid}":
     $ref: 'read/post/pid.yaml'
+  "/api/posts/{pid}/poll":
+    $ref: 'read/posts/pid/poll.yaml'
   /api/flags:
     $ref: 'read/flags.yaml'
   "/api/flags/{flagId}":

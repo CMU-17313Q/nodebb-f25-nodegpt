@@ -1,8 +1,8 @@
 put:
   tags:
-    - files
-  summary: create a new folder
-  description: This operation creates a new folder inside upload path
+    - Files
+  summary: Create a new folder
+  description: This operation creates a new folder inside the upload path.
   requestBody:
     required: true
     content:
@@ -12,7 +12,7 @@ put:
           properties:
             path:
               type: string
-              description: Path to the file (relative to the configured `upload_path`)
+              description: Path relative to the configured `upload_path`
               example: /files
             folderName:
               type: string
@@ -23,14 +23,31 @@ put:
             - folderName
   responses:
     '200':
-      description: Folder created
+      description: Folder created successfully
       content:
         application/json:
           schema:
             type: object
             properties:
               status:
-                $ref: ../../components/schemas/Status.yaml#/Status
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: ok
+                  message:
+                    type: string
+                    example: OK
               response:
                 type: object
-                properties: {}
+                description: Additional response data
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: forbidden

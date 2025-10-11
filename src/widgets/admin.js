@@ -8,16 +8,28 @@ const index = require('./index');
 const admin = module.exports;
 
 admin.get = async function () {
-	const [areas, availableWidgets] = await Promise.all([
-		admin.getAreas(),
-		getAvailableWidgets(),
-	]);
+	try {
+		const [areas, availableWidgets] = await Promise.all([
+			admin.getAreas(),
+			getAvailableWidgets(),
+		]);
 
-	return {
-		templates: buildTemplatesFromAreas(areas),
-		areas: areas,
-		availableWidgets: availableWidgets,
-	};
+		const templates = buildTemplatesFromAreas(areas) || [];
+		const result = {
+			templates: templates,
+			areas: areas || [],
+			availableWidgets: availableWidgets || [],
+		};
+		
+		return result;
+	} catch (error) {
+		// Fallback to safe empty response if there's any error
+		return {
+			templates: [],
+			areas: [],
+			availableWidgets: [],
+		};
+	}
 };
 
 admin.getAreas = async function () {
@@ -51,6 +63,10 @@ async function renderAdminTemplate() {
 }
 
 function buildTemplatesFromAreas(areas) {
+	if (!areas || !Array.isArray(areas)) {
+		return [];
+	}
+	
 	const templates = [];
 	const list = {};
 	let index = 0;
@@ -72,7 +88,7 @@ function buildTemplatesFromAreas(areas) {
 			location: area.location,
 		});
 		if (area.location !== 'drafts') {
-			templates[list[area.template]].widgetCount += area.data.length;
+			templates[list[area.template]].widgetCount += (area.data ? area.data.length : 0);
 		}
 	});
 	return templates;

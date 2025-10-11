@@ -1,0 +1,7 @@
+/posts/{pid}:
+  # ...existing code...
+  
+/posts/{pid}/poll:
+  $ref: './posts/poll.yaml#/get'
+
+# ...existing code...
