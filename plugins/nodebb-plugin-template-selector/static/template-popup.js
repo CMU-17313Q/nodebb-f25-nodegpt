@@ -63,13 +63,13 @@
 
     if (!list.length) {
       list = [
-        { id: 'assignment',  title: 'Assignment Template', description: 'Course, repro steps, expected vs actual.' },
         { id: '__blank',     title: 'Blank Template',      description: 'Start with an empty post.' },
+        { id: 'assignment',  title: 'Assignment Template', description: 'Course, repro steps, expected vs actual.' },
       ];
-    } else {
-      // ensure blank is last
-      list.sort((a, b) => (a.id === '__blank') - (b.id === '__blank'));
     }
+
+    // make sure blank appears last by spec (if needed)
+    list = list.sort((a, b) => (a.id === '__blank') - (b.id === '__blank'));
 
     const body = `
       <div class="list-group">
@@ -126,12 +126,12 @@
   function tsSetBlankContext(templateId = '__blank') {
     tsRemoveUIOnly();
     const $cmp = $('.composer');
-    $cmp.attr('data-ts-has-context', 'true')  // so submit guard runs
-        .data('ts-fields', [])                // empty schema
-        .data('ts-values', {})                // empty values
-        .data('ts-template-id', templateId);  // remember chosen id
-    tsSetSubmitDisabled(false);               // allow submit
-    console.log('[ts] blank context set (no UI)');
+    $cmp.attr('data-ts-has-context', 'true')        // so submit guard runs
+        .data('ts-fields', [])                      // empty schema
+        .data('ts-values', {})                      // empty values
+        .data('ts-template-id', templateId);        // remember chosen id
+    tsSetSubmitDisabled(false);                     // allow submit
+    console.log('[ts] blank context set');
   }
 
   function tsClearAllContext() {
@@ -237,7 +237,7 @@
 
     tsWaitForComposer((point) => {
       if (!fields.length) {
-        // treat as blank context
+        // if a server template came back with empty fields, treat like blank context
         tsSetBlankContext(chosenId || '__blank');
         return;
       }
@@ -302,70 +302,32 @@
     });
   }
 
-  // ---------- submit guard (writes to multiple payload shapes; logs loudly) ----------
+  // ---------- submit guard ----------
   function tsAttachSubmitGuard() {
-    $(window).off('action:composer.submit.ts-guard action:composer.post.ts-guard');
-    $(window).on('action:composer.submit.ts-guard action:composer.post.ts-guard', (ev, payload) => {
+    $(window).off('action:composer.submit.ts-guard');
+    $(window).on('action:composer.submit.ts-guard', (ev, payload) => {
       const $cmp = $('.composer');
+      if ($cmp.attr('data-ts-has-context') === 'true') {
+        const fields = $cmp.data('ts-fields') || [];
+        const values = $cmp.data('ts-values') || {};
+        const templateId = $cmp.data('ts-template-id') || null;
+        const missing = tsComputeMissing(fields, values);
 
-      if ($cmp.attr('data-ts-has-context') !== 'true') {
-        console.log('[ts] submit: no context set → skipping');
-        return;
-      }
-
-      const fields     = $cmp.data('ts-fields') || [];
-      const values     = $cmp.data('ts-values') || {};
-      const templateId = $cmp.data('ts-template-id') || '__blank';
-
-      // For non-blank templates, enforce requireds
-      const missing = tsComputeMissing(fields, values);
-      if (fields.length && missing.length) {
-        console.warn('[ts] submit blocked; missing:', missing.map(m => m.key));
-        ev.stopImmediatePropagation();
-        ev.stopPropagation();
-        tsApplyErrors(missing);
-        tsSetSubmitDisabled(true);
-        return;
-      }
-
-      // Find the right pocket to write into
-      let into = 'object';
-      let target =
-        (payload && (payload.postData || payload.data)) ||
-        (payload && payload.composer && payload.composer.postData) ||
-        null;
-
-      if (!target) {
-        // Ensure object exists if we only had composer
-        if (payload && payload.composer) {
-          payload.composer.postData = {};
-          target = payload.composer.postData;
-          into = 'composer.postData(new)';
-        } else if (payload) {
-          // last resort – create a postData container
-          payload.postData = {};
-          target = payload.postData;
-          into = 'postData(new)';
-        } else {
-          target = {};
+        if (missing.length) {
+          ev.stopImmediatePropagation();
+          ev.stopPropagation();
+          tsApplyErrors(missing);
+          tsSetSubmitDisabled(true);
+          return;
         }
-      } else {
-        into = payload.postData ? 'postData'
-             : payload.data ? 'data'
-             : 'composer.postData';
-      }
 
-      try {
-        target.tsTemplateId = templateId;
-        target.tsFields     = fields.map(({ key, label, required }) => ({ key, label, required }));
-        target.tsValues     = values;
-
-        console.log('[ts] submit attached →', {
-          into, tsTemplateId: templateId, fieldsCount: fields.length, keys: Object.keys(values),
-        });
-      } catch (e) {
-        console.error('[ts] failed to attach submit payload', e);
+        // Always attach payload when context is set, including BLANK
+        payload.data = payload.data || {};
+        payload.data.tsTemplateId = templateId;
+        payload.data.tsFields = fields.map(({ key, label, required }) => ({ key, label, required }));
+        payload.data.tsValues = values;
       }
+      // if no context at all, do nothing
     });
   }
 
