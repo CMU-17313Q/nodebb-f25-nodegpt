@@ -16,7 +16,6 @@ router.post('/', staffOnly, Templates.create);
 router.put('/:id', staffOnly, Templates.update);
 router.delete('/:id', staffOnly, Templates.remove);
 
-module.exports = router;
 
 /**
  * GET /test-template
