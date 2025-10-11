@@ -84,6 +84,8 @@
 			{posts.content}
 		</div>
 
+		<!-- IMPORT partials/topic/post-poll.tpl -->
+
 		<div component="post/footer" class="post-footer border-bottom pb-2">
 			{{{ if posts.user.signature }}}
 			<div component="post/signature" data-uid="{posts.user.uid}" class="text-xs text-muted mt-2">{posts.user.signature}</div>
