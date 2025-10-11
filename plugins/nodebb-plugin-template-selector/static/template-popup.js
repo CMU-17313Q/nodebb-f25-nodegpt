@@ -3,7 +3,7 @@
 (function () {
   'use strict';
 
-  // ---------------------------- Safe HTML escaper ----------------------------
+  // safe html escaper
   function esc(str) {
     return String(str ?? '')
       .replace(/&/g, '&amp;')
@@ -13,7 +13,7 @@
       .replace(/'/g, '&#39;');
   }
 
-  // ---------------------------- Minimal styles (one-time) ----------------------------
+  // minimal styles to ensure it always works
   function ensureStyles() {
     if (document.getElementById('ts-styles')) return;
     const css = `
@@ -39,7 +39,7 @@
     document.head.appendChild(style);
   }
 
-  // ---------------------------- Local schema (fallback) ----------------------------
+  // assignment field schema
   const ASSIGNMENT_FIELDS = [
     { key: 'course',            label: 'Course',                 type: 'text',     required: true  },
     { key: 'assignment_name',   label: 'Assignment Name',        type: 'text',     required: true  },
@@ -53,7 +53,7 @@
     { key: 'resources',         label: 'Resources',              type: 'textarea', required: false },
   ];
 
-  // ---------------------------- Picker (API + resilient fallback) ----------------------------
+  // -template picker function
   async function showTemplatePicker() {
     let list = [];
     try {
@@ -110,7 +110,7 @@
     });
   }
 
-  // ---------------------------- Composer state helpers ----------------------------
+  // composer state function helpers
   function tsSetSubmitDisabled(disabled) {
     const $btn = $('.composer [component="composer/submit"], .composer button[data-action="post"], .composer .composer-submit, .composer .btn-primary');
     $btn.prop('disabled', !!disabled);
@@ -126,11 +126,11 @@
   function tsSetBlankContext(templateId = '__blank') {
     tsRemoveUIOnly();
     const $cmp = $('.composer');
-    $cmp.attr('data-ts-has-context', 'true')        // so submit guard runs
-        .data('ts-fields', [])                      // empty schema
-        .data('ts-values', {})                      // empty values
-        .data('ts-template-id', templateId);        // remember chosen id
-    tsSetSubmitDisabled(false);                     // allow submit
+    $cmp.attr('data-ts-has-context', 'true')        
+        .data('ts-fields', [])                     
+        .data('ts-values', {})                      
+        .data('ts-template-id', templateId);        
+    tsSetSubmitDisabled(false);                     
     console.log('[ts] blank context set');
   }
 
@@ -144,7 +144,7 @@
     tsSetSubmitDisabled(false);
   }
 
-  // ---------------------------- UI + validation helpers ----------------------------
+  // UI and error/validation handlers
   function tsFieldRow(field) {
     const id = `ts-field-${field.key}`;
     const req = field.required ? ' <span class="badge bg-danger">required</span>' : '';
@@ -199,7 +199,7 @@
     }
   }
 
-  // ---------- where to insert (broad probe set + fallback) ----------
+  // where to insert 
   function tsFindInsertionPoint() {
     const probes = [
       { sel: '.composer [component="composer/textarea"]', how: 'before' },
@@ -230,7 +230,7 @@
     setTimeout(() => mo.disconnect(), 5000);
   }
 
-  // ---------- inject the form + live validation ----------
+  // inject the form and live validation
   function tsInjectForm(template, chosenId) {
     ensureStyles();
     const fields = Array.isArray(template.fields) ? template.fields : [];
@@ -302,7 +302,7 @@
     });
   }
 
-  // ---------- submit guard ----------
+  // submit gaurd
   function tsAttachSubmitGuard() {
     $(window).off('action:composer.submit.ts-guard');
     $(window).on('action:composer.submit.ts-guard', (ev, payload) => {
@@ -331,7 +331,7 @@
     });
   }
 
-  // ---------------------------- Main flow: run AFTER composer opens ----------------------------
+  // functions run after the composer
   async function injectForChoice(choice) {
     // BLANK: no UI, but set an empty context and allow submit; still save payload on submit
     if (!choice || choice === '__blank') {
