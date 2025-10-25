@@ -347,7 +347,7 @@ Emailer.sendToEmail = async (template, email, language, params) => {
 		if (Plugins.hooks.hasListeners('static:email.send')) {
 			await Plugins.hooks.fire('static:email.send', data);
 		} else {
-			await Emailer.sendViaFallback(data);
+			// await Emailer.sendViaFallback(data);
 		}
 	} catch (err) {
 		if (err.code === 'ENOENT' && usingFallback) {

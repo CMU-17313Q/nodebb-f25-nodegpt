@@ -1,0 +1,7 @@
+organization=indyag
+projectKey=IndyaG_nodebb-nodegpt-sonar
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.69167
+dashboardUrl=https://sonarcloud.io/dashboard?id=IndyaG_nodebb-nodegpt-sonar
+ceTaskId=AZobFJxYdRiXbuAMevza
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZobFJxYdRiXbuAMevza

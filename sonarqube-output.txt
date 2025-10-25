@@ -1,0 +1,223 @@
+[INFO]  Bootstrapper: Retrieving info from "package.json" file
+[INFO]  Bootstrapper: Platform: linux x64
+[INFO]  Bootstrapper: Server URL: https://sonarcloud.io
+[INFO]  Bootstrapper: Version: 4.3.2
+[INFO]  Bootstrapper: JRE provisioning is supported
+[INFO]  Bootstrapper: Using JRE from the cache
+[INFO]  ScannerEngine: Starting SonarScanner Engine...
+[INFO]  ScannerEngine: Java 17.0.11 Eclipse Adoptium (64-bit)
+[INFO]  ScannerEngine: Load global settings
+[INFO]  ScannerEngine: Load global settings (done) | time=880ms
+[INFO]  ScannerEngine: Server id: 1BD809FA-AWHW8ct9-T_TB3XqouNu
+[INFO]  ScannerEngine: Loading required plugins
+[INFO]  ScannerEngine: Load plugins index
+[INFO]  ScannerEngine: Load plugins index (done) | time=224ms
+[INFO]  ScannerEngine: Load/download plugins
+[INFO]  ScannerEngine: Load/download plugins (done) | time=84ms
+[INFO]  ScannerEngine: Loaded core extensions: architecture, sca
+[INFO]  ScannerEngine: Process project properties
+[INFO]  ScannerEngine: Execute project builders
+[INFO]  ScannerEngine: Execute project builders (done) | time=0ms
+[INFO]  ScannerEngine: Project key: IndyaG_nodebb-nodegpt-sonar
+[INFO]  ScannerEngine: Base dir: /workspaces/nodebb-f25-nodegpt
+[INFO]  ScannerEngine: Working dir: /workspaces/nodebb-f25-nodegpt/.scannerwork
+[INFO]  ScannerEngine: Load project branches
+[INFO]  ScannerEngine: Load project branches (done) | time=330ms
+[INFO]  ScannerEngine: Load project settings for component key: 'IndyaG_nodebb-nodegpt-sonar'
+[INFO]  ScannerEngine: Load project settings for component key: 'IndyaG_nodebb-nodegpt-sonar' (done) | time=357ms
+[INFO]  ScannerEngine: Check ALM binding of project 'IndyaG_nodebb-nodegpt-sonar'
+[INFO]  ScannerEngine: Detected project binding: BOUND
+[INFO]  ScannerEngine: Check ALM binding of project 'IndyaG_nodebb-nodegpt-sonar' (done) | time=271ms
+[INFO]  ScannerEngine: Load project pull requests
+[INFO]  ScannerEngine: Load project pull requests (done) | time=273ms
+[INFO]  ScannerEngine: Load branch configuration
+[INFO]  ScannerEngine: Load branch configuration (done) | time=2ms
+[INFO]  ScannerEngine: Load quality profiles
+[INFO]  ScannerEngine: Load quality profiles (done) | time=448ms
+[INFO]  ScannerEngine: Create analysis
+[INFO]  ScannerEngine: Create analysis (done) | time=406ms
+[INFO]  ScannerEngine: Load active rules
+[INFO]  ScannerEngine: Load active rules (done) | time=1557ms
+[INFO]  ScannerEngine: Organization key: indyag
+[INFO]  ScannerEngine: Preprocessing files...
+[INFO]  ScannerEngine: 8 languages detected in 5479 preprocessed files (done) | time=6823ms
+[INFO]  ScannerEngine: 49982 files ignored because of inclusion/exclusion patterns
+[INFO]  ScannerEngine: 10698 files ignored because of scm ignore settings
+[INFO]  ScannerEngine: Loading plugins for detected languages
+[INFO]  ScannerEngine: Load/download plugins
+[INFO]  ScannerEngine: Load/download plugins (done) | time=16410ms
+[INFO]  ScannerEngine: Load metrics repository
+[INFO]  ScannerEngine: Load metrics repository (done) | time=112ms
+[INFO]  ScannerEngine: Sensor cache enabled
+[INFO]  ScannerEngine: Load sensor cache
+[INFO]  ScannerEngine: Load sensor cache (10 MB) | time=1737ms
+[INFO]  ScannerEngine: Load project repositories
+[INFO]  ScannerEngine: Load project repositories (done) | time=1656ms
+[INFO]  ScannerEngine: Indexing files...
+[INFO]  ScannerEngine: Project configuration:
+[INFO]  ScannerEngine:   Excluded sources: node_modules/**, bower_components/**, jspm_packages/**, typings/**, lib-cov/**, **/build-wrapper-dump.json
+[INFO]  ScannerEngine: 5439 files indexed (done) | time=260ms
+[INFO]  ScannerEngine: Quality profile for css: Sonar way
+[INFO]  ScannerEngine: Quality profile for docker: Sonar way
+[INFO]  ScannerEngine: Quality profile for js: Sonar way
+[INFO]  ScannerEngine: Quality profile for json: Sonar way
+[INFO]  ScannerEngine: Quality profile for shell: Sonar way
+[INFO]  ScannerEngine: Quality profile for web: Sonar way
+[INFO]  ScannerEngine: Quality profile for yaml: Sonar way
+[INFO]  ScannerEngine: ------------- Run sensors on module nodebb
+[INFO]  ScannerEngine: Sensor HTML [web]
+[INFO]  ScannerEngine: Sensor HTML [web] (done) | time=388ms
+[INFO]  ScannerEngine: Sensor Declarative Rule Engine for Shell [dre]
+[INFO]  ScannerEngine: Detected platform: linux-x64
+[INFO]  ScannerEngine: Found 14 rules to execute.
+[INFO]  ScannerEngine: Extracting analyzer from /analyzer/analyzer.xz
+[INFO]  ScannerEngine: Analyzer extracted to /workspaces/nodebb-f25-nodegpt/.scannerwork/.sonartmp/analyzer/analyzer
+[INFO]  ScannerEngine: Starting analysis.
+[INFO]  ScannerEngine: Sensor Declarative Rule Engine for Shell [dre] (done) | time=2262ms
+[INFO]  ScannerEngine: Sensor JaCoCo XML Report Importer [jacoco]
+[INFO]  ScannerEngine: 'sonar.coverage.jacoco.xmlReportPaths' is not defined. Using default locations: target/site/jacoco/jacoco.xml,target/site/jacoco-it/jacoco.xml,build/reports/jacoco/test/jacocoTestReport.xml
+[INFO]  ScannerEngine: No report imported, no coverage information will be imported by JaCoCo XML Report Importer
+[INFO]  ScannerEngine: Sensor JaCoCo XML Report Importer [jacoco] (done) | time=3ms
+[INFO]  ScannerEngine: Sensor JasminFileCollectorSensor [jasmin]
+[INFO]  ScannerEngine: Sensor JasminFileCollectorSensor [jasmin] (done) | time=3ms
+[INFO]  ScannerEngine: Sensor IaC Ansible Sensor [iacenterprise]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Ansible language
+[INFO]  ScannerEngine: Sensor IaC Ansible Sensor [iacenterprise] (done) | time=6615ms
+[INFO]  ScannerEngine: Sensor IaC ansible-lint report Sensor [iacenterprise]
+[INFO]  ScannerEngine: Sensor IaC ansible-lint report Sensor [iacenterprise] (done) | time=11ms
+[INFO]  ScannerEngine: Sensor IaC GitHub Actions Sensor [iacenterprise]
+[INFO]  ScannerEngine: 3 source files to be analyzed
+[INFO]  ScannerEngine: 3/3 source files have been analyzed
+[INFO]  ScannerEngine: Sensor IaC GitHub Actions Sensor [iacenterprise] (done) | time=184ms
+[INFO]  ScannerEngine: Sensor IaC CloudFormation Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the CloudFormation language
+[INFO]  ScannerEngine: Sensor IaC CloudFormation Sensor [iac] (done) | time=518ms
+[INFO]  ScannerEngine: Sensor IaC cfn-lint report Sensor [iac]
+[INFO]  ScannerEngine: Sensor IaC cfn-lint report Sensor [iac] (done) | time=2ms
+[INFO]  ScannerEngine: Sensor IaC Kubernetes Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Kubernetes language
+[INFO]  ScannerEngine: Sensor IaC Kubernetes Sensor [iac] (done) | time=646ms
+[INFO]  ScannerEngine: Sensor IaC Docker Sensor [iac]
+[INFO]  ScannerEngine: 2 source files to be analyzed
+[INFO]  ScannerEngine: 2/2 source files have been analyzed
+[INFO]  ScannerEngine: Sensor IaC Docker Sensor [iac] (done) | time=451ms
+[INFO]  ScannerEngine: Sensor IaC hadolint report Sensor [iac]
+[INFO]  ScannerEngine: Sensor IaC hadolint report Sensor [iac] (done) | time=1ms
+[INFO]  ScannerEngine: Sensor IaC Azure Resource Manager Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Azure Resource Manager language
+[INFO]  ScannerEngine: Sensor IaC Azure Resource Manager Sensor [iac] (done) | time=411ms
+[INFO]  ScannerEngine: Sensor Java Config Sensor [iac]
+[INFO]  ScannerEngine: There are no files to be analyzed for the Java language
+[INFO]  ScannerEngine: Sensor Java Config Sensor [iac] (done) | time=45ms
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript analysis [javascript]
+[INFO]  ScannerEngine: Detected os: Linux arch: amd64 alpine: false. Platform: LINUX_X64
+[INFO]  ScannerEngine: Deploy location /home/node/.sonar/js/node-runtime, tagetRuntime: /home/node/.sonar/js/node-runtime/node,  version: /home/node/.sonar/js/node-runtime/version.txt
+[INFO]  ScannerEngine: Using embedded Node.js runtime.
+[INFO]  ScannerEngine: Using Node.js executable: '/home/node/.sonar/js/node-runtime/node'.
+[INFO]  ScannerEngine: Memory configuration: OS (7858 MB), Node.js (2096 MB).
+[INFO]  ScannerEngine: WebSocket client connected on /ws
+[INFO]  ScannerEngine: Plugin version: [11.4.1.34873]
+[INFO]  ScannerEngine: Some of the project files were automatically excluded because they looked like generated code. Enable debug logging to see which files were excluded. You can disable bundle detection by setting sonar.javascript.detectBundles=false
+[INFO]  ScannerEngine: Using generated tsconfig.json file using wildcards /tmp/tsconfig-8W8dY4.json
+[INFO]  ScannerEngine: Found 1 tsconfig.json file(s): [/tmp/tsconfig-8W8dY4.json]
+[INFO]  ScannerEngine: 861 source files to be analyzed
+[INFO]  ScannerEngine: Creating TypeScript program
+[INFO]  ScannerEngine: TypeScript(5.9.2) configuration file /tmp/tsconfig-8W8dY4.json
+[INFO]  ScannerEngine: 861/861 source files have been analyzed
+[INFO]  ScannerEngine: Done analysis
+[INFO]  ScannerEngine: Hit the cache for 0 out of 863
+[INFO]  ScannerEngine: Miss the cache for 863 out of 863: ANALYSIS_MODE_INELIGIBLE [863/863]
+[INFO]  ScannerEngine: Sensor JavaScript/TypeScript analysis [javascript] (done) | time=163585ms
+[INFO]  ScannerEngine: Sensor JavaScript inside YAML analysis [javascript]
+[INFO]  ScannerEngine: No input files found for analysis
+[INFO]  ScannerEngine: Hit the cache for 0 out of 0
+[INFO]  ScannerEngine: Miss the cache for 0 out of 0
+[INFO]  ScannerEngine: Sensor JavaScript inside YAML analysis [javascript] (done) | time=175ms
+[INFO]  ScannerEngine: Sensor JavaScript inside HTML analysis [javascript]
+[INFO]  ScannerEngine: 5 source files to be analyzed
+[INFO]  ScannerEngine: 5/5 source files have been analyzed
+[INFO]  ScannerEngine: Hit the cache for 0 out of 5
+[INFO]  ScannerEngine: Miss the cache for 5 out of 5: ANALYSIS_MODE_INELIGIBLE [5/5]
+[INFO]  ScannerEngine: Sensor JavaScript inside HTML analysis [javascript] (done) | time=558ms
+[INFO]  ScannerEngine: Sensor CSS Rules [javascript]
+[INFO]  ScannerEngine: 61 source files to be analyzed
+[INFO]  ScannerEngine: 61/61 source files have been analyzed
+[INFO]  ScannerEngine: Hit the cache for 0 out of 0
+[INFO]  ScannerEngine: Miss the cache for 0 out of 0
+[INFO]  ScannerEngine: Sensor CSS Rules [javascript] (done) | time=838ms
+[INFO]  ScannerEngine: Sensor CSS Metrics [javascript]
+[INFO]  ScannerEngine: Sensor CSS Metrics [javascript] (done) | time=110ms
+[INFO]  ScannerEngine: Sensor IaC YAML Sensor [iacenterprise]
+[INFO]  ScannerEngine: Sensor IaC YAML Sensor [iacenterprise] (done) | time=0ms
+[INFO]  ScannerEngine: Sensor IaC JSON Sensor [iacenterprise]
+[INFO]  ScannerEngine: Sensor IaC JSON Sensor [iacenterprise] (done) | time=0ms
+[INFO]  ScannerEngine: Sensor Serverless configuration file sensor [security]
+[INFO]  ScannerEngine: 0 Serverless function entries were found in the project
+[INFO]  ScannerEngine: 0 Serverless function handlers were kept as entrypoints
+[INFO]  ScannerEngine: Sensor Serverless configuration file sensor [security] (done) | time=15ms
+[INFO]  ScannerEngine: Sensor AWS SAM template file sensor [security]
+[INFO]  ScannerEngine: Sensor AWS SAM template file sensor [security] (done) | time=63ms
+[INFO]  ScannerEngine: Sensor AWS SAM Inline template file sensor [security]
+[INFO]  ScannerEngine: Sensor AWS SAM Inline template file sensor [security] (done) | time=64ms
+[INFO]  ScannerEngine: Sensor EnterpriseTextAndSecretsSensor [textenterprise]
+[INFO]  ScannerEngine: Available processors: 8
+[INFO]  ScannerEngine: Using 8 threads for analysis.
+[INFO]  ScannerEngine: The property "sonar.tests" is not set. To improve the analysis accuracy, we categorize a file as a test file if any of the following is true:
+  * The filename starts with "test"
+  * The filename contains "test." or "tests."
+  * Any directory in the file path is named: "doc", "docs", "test" or "tests"
+  * Any directory in the file path has a name ending in "test" or "tests"
+
+[INFO]  ScannerEngine: Start fetching files for the text and secrets analysis
+[INFO]  ScannerEngine: Using Git CLI to retrieve untracked files
+[INFO]  ScannerEngine: Retrieving language associated files and files included via "sonar.text.inclusions" that are tracked by git
+[INFO]  ScannerEngine: Starting the text and secrets analysis
+[INFO]  ScannerEngine: 4999 source files to be analyzed for the text and secrets analysis
+[INFO]  ScannerEngine: 4999/4999 source files have been analyzed for the text and secrets analysis
+[INFO]  ScannerEngine: Start fetching files for the binary file analysis
+[INFO]  ScannerEngine: There are no files to be analyzed for the binary file analysis
+[INFO]  ScannerEngine: 1 file is ignored because it is untracked by git
+[INFO]  ScannerEngine: Sensor EnterpriseTextAndSecretsSensor [textenterprise] (done) | time=4462ms
+[INFO]  ScannerEngine: Sensor JsSecuritySensor [security]
+[INFO]  ScannerEngine: Sensor JsSecuritySensor [security] (done) | time=0ms
+[INFO]  ScannerEngine: ------------- Run sensors on project
+[INFO]  ScannerEngine: Sensor JsSecuritySensorV2 [jasmin]
+[INFO]  ScannerEngine: 861 file(s) will be analysed by SonarJasmin.
+[INFO]  ScannerEngine: Analysis progress:   5% (50/861 files)
+[INFO]  ScannerEngine: Analysis progress:  11% (100/861 files)
+[INFO]  ScannerEngine: Analysis progress:  17% (150/861 files)
+[INFO]  ScannerEngine: Analysis progress:  23% (200/861 files)
+[INFO]  ScannerEngine: Analysis progress:  29% (250/861 files)
+[INFO]  ScannerEngine: Analysis progress:  34% (300/861 files)
+[INFO]  ScannerEngine: Analysis progress:  40% (350/861 files)
+[INFO]  ScannerEngine: Analysis progress:  46% (400/861 files)
+[INFO]  ScannerEngine: Analysis progress:  52% (450/861 files)
+[INFO]  ScannerEngine: Analysis progress:  58% (500/861 files)
+[INFO]  ScannerEngine: Analysis progress:  63% (550/861 files)
+[INFO]  ScannerEngine: Analysis progress:  69% (600/861 files)
+[INFO]  ScannerEngine: Analysis progress:  75% (650/861 files)
+[INFO]  ScannerEngine: Analysis progress:  81% (700/861 files)
+[INFO]  ScannerEngine: Analysis progress:  87% (750/861 files)
+[INFO]  ScannerEngine: Analysis progress:  92% (800/861 files)
+[INFO]  ScannerEngine: Analysis progress:  98% (850/861 files)
+[INFO]  ScannerEngine: Sensor JsSecuritySensorV2 [jasmin] (done) | time=45822ms
+[INFO]  ScannerEngine: Sensor JsArchitectureSensor [architecture]
+[INFO]  ScannerEngine: Sensor JsArchitectureSensor [architecture] (done) | time=28ms
+[INFO]  ScannerEngine: Sensor Zero Coverage Sensor
+[INFO]  ScannerEngine: Sensor Zero Coverage Sensor (done) | time=417ms
+[INFO]  ScannerEngine: ------------- Gather SCA dependencies on project
+[INFO]  ScannerEngine: Checking if SCA is enabled for organization indyag
+[INFO]  ScannerEngine: Dependency analysis skipped
+[INFO]  ScannerEngine: CPD Executor 53 files had no CPD blocks
+[INFO]  ScannerEngine: CPD Executor Calculating CPD for 814 files
+[INFO]  ScannerEngine: CPD Executor CPD calculation finished (done) | time=486ms
+[INFO]  ScannerEngine: Analysis report generated in 1738ms, dir size=20 MB
+[INFO]  ScannerEngine: Analysis report compressed in 4552ms, zip size=9 MB
+[INFO]  ScannerEngine: Analysis report uploaded in 12589ms
+[INFO]  ScannerEngine: ANALYSIS SUCCESSFUL, you can find the results at: https://sonarcloud.io/dashboard?id=IndyaG_nodebb-nodegpt-sonar
+[INFO]  ScannerEngine: Note that you will be able to access the updated dashboard once the server has processed the submitted analysis report
+[INFO]  ScannerEngine: More about the report processing at https://sonarcloud.io/api/ce/task?id=AZobFJxYdRiXbuAMevza
+[INFO]  ScannerEngine: ------------- Upload SCA dependency files
+[INFO]  ScannerEngine: Sensor cache published successfully
+[INFO]  ScannerEngine: Analysis total time: 4:46.477 s
+[INFO]  ScannerEngine: SonarScanner Engine completed successfully
