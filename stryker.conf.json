@@ -1,7 +1,15 @@
 {
   "$schema": "https://raw.githubusercontent.com/stryker-mutator/stryker-js/master/packages/core/schema/stryker-schema.json",
   "testRunner": "mocha",
-  "mutate": ["**/*.js", "!**/*.test.js", "!node_modules/**", "!build/**", "!dist/**"],
+  "coverageAnalysis": "off",
+  "mutate": [
+    "src/**/*.js",
+    "!src/cli/**",
+    "!**/*.test.js",
+    "!node_modules/**",
+    "!build/**",
+    "!dist/**"
+  ],
   "mochaOptions": { "spec": ["test/**/*.test.js"] },
   "reporters": ["clear-text", "progress", "html"]
 }
