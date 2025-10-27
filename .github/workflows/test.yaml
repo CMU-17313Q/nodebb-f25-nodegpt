@@ -54,7 +54,7 @@ jobs:
           useLockFile: false
 
       - name: Ensure dev dependencies
-        run: npm ci --include=dev --no-audit --no-fund
+        run: npm install --no-audit --no-fund --include=dev
 
       - name: Debug: list chai
         run: npm ls chai --depth=0 || true
