@@ -13,3 +13,4 @@
   "mochaOptions": { "spec": ["test/**/*.test.js"] },
   "reporters": ["clear-text", "progress", "html"]
 }
+
