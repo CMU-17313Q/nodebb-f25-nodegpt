@@ -53,6 +53,12 @@ jobs:
         with:
           useLockFile: false
 
+      - name: Ensure dev dependencies
+        run: npm ci --include=dev --no-audit --no-fund
+
+      - name: Debug: list chai
+        run: npm ls chai --depth=0 || true
+
       - name: Setup on Redis
         env:
           SETUP: >-

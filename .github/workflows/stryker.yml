@@ -11,7 +11,8 @@ jobs:
         with: { node-version: 22 }
       - run: ls -la
       - run: cp install/package.json package.json
-      - run: npm install --no-audit --no-fund
+      - run: npm ci --include=dev --no-audit --no-fund
+      - run: npm ls chai --depth=0 || true
       - run: npm install --no-save @stryker-mutator/core @stryker-mutator/mocha-runner mocha chai
       - run: npx stryker run | tee stryker-output.txt || true
       - uses: actions/upload-artifact@v4
