@@ -29,7 +29,6 @@ export default defineConfig([
 			'test/files/',
 			'*.min.js',
 			'install/docker/',
-			'my-test.js'
 		],
 	},
 	// tests
