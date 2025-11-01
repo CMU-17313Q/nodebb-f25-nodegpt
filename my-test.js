@@ -11,7 +11,7 @@ export const options = {
 };
 
 export default function() {
-  let res = http.get('https://quickpizza.grafana.com');
+  let res = http.get('https://crs-17313-nodegpt.qatar.cmu.edu/');
   expect.soft(res.status).toBe(200);
   sleep(1);
 }
