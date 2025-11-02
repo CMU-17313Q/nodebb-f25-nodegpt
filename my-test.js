@@ -11,8 +11,8 @@ export const options = {
 };
 
 export default function() {
-  // Use localhost since we're running ON the server
-  let res = http.get('https://localhost/');
+  // Use the actual domain - the server can reach itself via the domain name
+  let res = http.get('https://crs-17313-nodegpt.qatar.cmu.edu/');
   expect.soft(res.status).toBe(200);
   sleep(1);
 }
