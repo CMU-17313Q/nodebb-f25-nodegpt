@@ -2,7 +2,7 @@ name: k6 Performance Tests
 
 on:
   workflow_run:
-    workflows: ["VM Deploy"]
+    workflows: ["VM Deploy NodeBB"]
     types:
       - completed
     branches: 
