@@ -46,20 +46,3 @@ jobs:
             # Run test (use localhost since we're on the server)
             cd /tmp
             k6 run my-test.js --out json=results.json
-      
-      - name: Download results
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_ADMIN }}
-          password: ${{ secrets.ADMIN_PASSWORD }}
-          source: "/tmp/results.json"
-          target: "."
-          download: true
-      
-      - name: Upload results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: k6-results
-          path: results.json
