@@ -243,8 +243,6 @@ describe('API', async () => {
 		meta.config.termsOfUse = 'I, for one, welcome our new test-driven overlords';
 		meta.config.chatMessageDelay = 0;
 		meta.config.activitypubEnabled = 1;
-		meta.config.initialPostDelay = 0;
-		meta.config.newbiePostDelay = 0;
 
 		// Create a category
 		const testCategory = await categories.create({ name: 'test' });
@@ -637,12 +635,7 @@ describe('API', async () => {
 		// Compare the schema to the response
 		required.forEach((prop) => {
 			if (schema.hasOwnProperty(prop)) {
-
-				if (prop === 'url') {
-					return;
-				}
-
-				assert(response.hasOwnProperty(prop), `"${prop}" is a required property (path: ${method} ${path}, context: ${context})`);
+				assert(response.hasOwnProperty(prop), `"${prop}" is a required property (path: ${method} ${path}, context: ${context}), ${JSON.stringify(response)}`);
 
 				// Don't proceed with type-check if the value could possibly be unset (nullable: true, in spec)
 				if (response[prop] === null && schema[prop].nullable === true) {
@@ -692,7 +685,7 @@ describe('API', async () => {
 				return;
 			}
 
-			assert(schema[prop], `"${prop}" was found in response, but is not defined in schema (path: ${method} ${path}, context: ${context})`);
+			assert(schema[prop], `"${prop}" was found in response, but is not defined in schema (path: ${method} ${path}, context: ${context}) SCHEMA ${JSON.stringify(response)}`);
 		});
 	}
 });

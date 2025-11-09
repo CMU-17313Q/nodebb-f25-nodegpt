@@ -210,8 +210,3 @@ Posts.notifyQueuedPostOwner = async (req, res) => {
 	await api.posts.notifyQueuedPostOwner(req, { id, message: req.body.message });
 	helpers.formatApiResponse(200, res);
 };
-
-Posts.submitPollVote = async (req, res) => {
-	const result = await api.posts.submitPollVote(req, { pid: req.params.pid, optionIndex: req.body.optionIndex });
-	helpers.formatApiResponse(200, res, result);
-};

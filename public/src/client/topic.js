@@ -7,7 +7,6 @@ define('forum/topic', [
 	'forum/topic/postTools',
 	'forum/topic/events',
 	'forum/topic/posts',
-	'forum/topic/polls',
 	'navigator',
 	'sort',
 	'quickreply',
@@ -20,7 +19,7 @@ define('forum/topic', [
 	'clipboard',
 ], function (
 	infinitescroll, threadTools, postTools,
-	events, posts, polls, navigator, sort, quickreply,
+	events, posts, navigator, sort, quickreply,
 	components, storage, hooks, api, alerts,
 	bootbox, clipboard
 ) {
@@ -55,7 +54,6 @@ define('forum/topic', [
 		postTools.init(tid);
 		threadTools.init(tid, $('.topic'));
 		events.init();
-		polls.init();
 
 		sort.handleSort('topicPostSort', 'topic/' + ajaxify.data.slug);
 
@@ -73,11 +71,27 @@ define('forum/topic', [
 		handleThumbs();
 
 		$(window).on('scroll', utils.debounce(updateTopicTitle, 250));
+		configurePostToggle();
 
 		handleTopicSearch();
 
 		hooks.fire('action:topic.loaded', ajaxify.data);
 	};
+
+	function configurePostToggle() {
+		$('.topic').on('click', '.view-translated-btn', function () {
+			// Toggle the visibility of the next .translated-content div
+			$(this).closest('.sensitive-content-message').next('.translated-content').toggle();
+			// Optionally, change the button text based on visibility
+			var isVisible = $(this).closest('.sensitive-content-message').next('.translated-content').is(':visible');
+			if (isVisible) {
+				$(this).text('Hide the translated message.');
+			} else {
+				$(this).text('Click here to view the translated message.');
+			}
+		});
+	}
+
 
 	function handleTopicSearch() {
 		require(['mousetrap'], (mousetrap) => {

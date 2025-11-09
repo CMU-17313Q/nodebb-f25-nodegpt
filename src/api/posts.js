@@ -22,52 +22,6 @@ const notifications = require('../notifications');
 
 const postsAPI = module.exports;
 
-postsAPI.submitPollVote = async function (caller, data) {
-	if (!caller.uid) {
-		throw new Error('[[error:not-logged-in]]');
-	}
-	
-	if (!data || !data.pid || typeof data.optionIndex !== 'number') {
-		throw new Error('[[error:invalid-data]]');
-	}
-	
-	const { pid, optionIndex } = data;
-	
-	// Get the poll for this post
-	const Polls = require('../polls/model');
-	const Votes = require('../polls/votes');
-	
-	const poll = await Polls.getPollByPostId(pid);
-	if (!poll) {
-		throw new Error('[[error:no-poll-found]]');
-	}
-	
-	// Check if user already voted
-	const { pollId } = poll;
-	const userId = caller.uid;
-	
-	try {
-		// Record the vote (this will throw if user already voted)
-		await Votes.recordVote({ pollId, userId, optionIndex });
-		
-		// Get updated counts
-		const counts = await Votes.getCounts(pollId);
-		
-		// Return the updated poll information
-		return {
-			pollId,
-			optionIndex,
-			counts,
-			voted: true,
-		};
-	} catch (err) {
-		if (err.code === 'ALREADY_VOTED') {
-			throw new Error('[[error:already-voted]]');
-		}
-		throw err;
-	}
-};
-
 postsAPI.get = async function (caller, data) {
 	const [userPrivileges, post, voted] = await Promise.all([
 		privileges.posts.get([data.pid], caller.uid),
