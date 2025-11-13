@@ -1,0 +1,23 @@
+{
+  "node": true,
+  "browser": true,
+  "esversion": 11,
+  "undef": true,
+  "unused": true,
+  "curly": true,
+  "eqeqeq": true,
+  "strict": false,
+  "latedef": "nofunc",
+  "globals": {
+    "require": true,
+    "module": true,
+    "__dirname": true,
+    "describe": true,
+    "it": true,
+    "before": true,
+    "after": true,
+    "$": true,
+    "ajaxify": true,
+    "app": true
+  }
+}
