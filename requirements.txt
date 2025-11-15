@@ -1,0 +1,10 @@
+pytest
+pytest-mock
+
+# Only include ollama if your team actually needs it
+# but keep it optional-friendly for CI
+ollama
+
+# If your notebook / code uses any of these, include them:
+requests
+python-dotenv
