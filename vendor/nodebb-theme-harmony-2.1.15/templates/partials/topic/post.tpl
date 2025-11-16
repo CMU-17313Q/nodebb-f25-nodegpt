@@ -81,7 +81,7 @@
 		</div>
 
 		<div class="content text-break" component="post/content" itemprop="text">
-			{posts.content}
+			{{{ posts.content }}}
 
 			{{{ if posts.translatedContent }}}
 				<div class="sensitive-content-message">
@@ -90,11 +90,12 @@
 					</a>
 				</div>
 
-				<div class="translated-content" style="display:none;">
-					{posts.translatedContent}
+				<div class="translated-content" style="display: none;">
+					{{{ posts.translatedContent }}}
 				</div>
 			{{{ end }}}
 		</div>
+
 
 		<!-- IMPORT partials/topic/post-poll.tpl -->
 
