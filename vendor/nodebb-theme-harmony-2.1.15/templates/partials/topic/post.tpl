@@ -80,17 +80,17 @@
 			</div>
 		</div>
 
-		<div class="content text-break" component="post/content" itemprop="text">
-			{posts.content}
-			{{{ if !posts.isEnglish }}}
-				<div class="alert alert-info mt-2">
-					<strong>Translated message:</strong>
-					<span class="translated-content">
-						{posts.translatedContent}
-					</span>
-				</div>
-			{{{ end }}}
-		</div>
+	<div class="content text-break" component="post/content" itemprop="text">
+		{posts.content}
+		{{{ if !posts.isEnglish }}}
+			<div class="alert alert-info mt-2">
+				<strong>Translated message:</strong>
+				<span class="translated-content">
+					{posts.translatedContent}
+				</span>
+			</div>
+		{{{ end }}}
+	</div>
 
 
 
